@@ -55,7 +55,7 @@ with col8:
 if st.button('Predict Probability'):
     whole_num = int(overs)
     fractional_num = overs - whole_num
-    balls_faced = whole_num * 6 + int(fractional_num * 10)
+    balls_faced = whole_num * 6 + round(fractional_num * 10)
     run_rate = runs_so_far / overs if overs > 0 else 0
     balls_left = 120 - balls_faced
     runs_left = target_runs - runs_so_far if innings == 2 else -1
