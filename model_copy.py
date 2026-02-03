@@ -48,12 +48,14 @@ col6, col7, col8 = st.columns(3)
 with col6:
     runs_so_far = st.number_input('Runs scored so far', min_value=0)
 with col7:
-    overs = st.number_input('Overs completed', min_value=0.0, step=0.167, format="%.3f", max_value=20.0)
+    overs = st.number_input('Overs completed', min_value=0.0, step=0.1, format="%.1f", max_value=20.0)
 with col8:
     wickets_so_far = st.number_input('Wickets lost so far', min_value=0, max_value=10)
 
 if st.button('Predict Probability'):
-    balls_faced = int(overs * 6)
+    whole_num = int(overs)
+    fractional_num = overs - whole_num
+    balls_faced = whole_num * 6 + int(fractional_num * 10)
     run_rate = runs_so_far / overs if overs > 0 else 0
     balls_left = 120 - balls_faced
     runs_left = target_runs - runs_so_far if innings == 2 else -1
