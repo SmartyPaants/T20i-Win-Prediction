@@ -14,6 +14,7 @@ def extract_features_from_match(file_path):
     toss_winner = info.get("toss", {}).get("winner")
     toss_decision = info.get("toss", {}).get("decision")
     teams = info.get("teams", [])
+    date = info.get("dates")[0]  # Get the first date if available
 
     # Determine target if available
     innings_data = match.get("innings", [])
@@ -50,6 +51,7 @@ def extract_features_from_match(file_path):
 
                 rows.append({
                     "match_id": match_id,
+                    "dates": date,
                     "venue": venue,
                     "toss_winner": toss_winner,
                     "toss_decision": toss_decision,

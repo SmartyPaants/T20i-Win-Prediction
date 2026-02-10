@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+from datetime import datetime
 
 # Load dataset for dropdown options
 df = pd.read_csv('t20_data.csv.zip', compression="zip")
@@ -62,6 +63,8 @@ if st.button('Predict Probability'):
     runs_left = target_runs - runs_so_far if innings == 2 else -1
     required_run_rate = (runs_left * 6) / balls_left if innings == 2 and balls_left > 0 else -1
 
+    year = datetime().now().year
+
     # Create input dataframe
     input_dict = {
         'venue': [selected_venue],
@@ -75,7 +78,8 @@ if st.button('Predict Probability'):
         'balls_faced': [balls_faced],
         'run_rate': [run_rate],
         'target_runs': [target_runs],
-        'required_run_rate': [required_run_rate]
+        'required_run_rate': [required_run_rate],
+        'year': [year]
 }
 
     input_df = pd.DataFrame(input_dict)
