@@ -98,12 +98,8 @@ if st.button('Predict Probability'):
         input_df = input_df[features_inn1]
         model = model_inn1
     else:
-        if wickets_so_far < 10:
-            input_df = input_df[features_inn2]
-            model = model_inn2
-        elif wickets_so_far == 10:
-            st.error("All wickets lost. Win probability is 0%.")
-            st.stop()
+        input_df = input_df[features_inn2]
+        model = model_inn2
 
     # Predict
     result = model.predict_proba(input_df)
