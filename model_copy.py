@@ -66,6 +66,8 @@ if st.button('Predict Probability'):
 
     year = datetime.now().year
 
+    projected_score = runs_so_far + (runs_so_far / balls_faced) * (120 - balls_faced) if balls_faced > 0 else runs_so_far
+
     # Create input dataframe
     input_dict = {
         'venue': [selected_venue],
@@ -86,6 +88,8 @@ if st.button('Predict Probability'):
     input_df = pd.DataFrame(input_dict)
     input_df = input_df.merge(venue_stats, on="venue", how="left")
     input_df["score_vs_avg"] = (input_df["runs_so_far"] - input_df["avg_1st_score"])
+    input_df["projected_score"] = projected_score
+    input_df["proj_vs_avg"] = (input_df["projected_score"] - input_df["avg_1st_score"])
 
     # Encode categorical features
     for col, le in label_encoders.items():
