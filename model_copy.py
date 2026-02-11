@@ -101,7 +101,7 @@ if st.button('Predict Probability'):
         if wickets_so_far < 10:
             input_df = input_df[features_inn2]
             model = model_inn2
-        else:
+        elif wickets_so_far == 10:
             st.error("All wickets lost. Win probability is 0%.")
             st.stop()
 
