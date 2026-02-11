@@ -6,13 +6,14 @@ from datetime import datetime
 
 # Load dataset for dropdown options
 df = pd.read_csv('t20_data_clean.csv.zip', compression="zip")
+venue_stats = pd.read_csv("venue_stats.csv")
 
 # Extract unique teams and venues dynamically
 teams = sorted(set(df['batting_team'].unique()) | set(df['bowling_team'].unique()))
 venues = sorted(df['venue'].dropna().unique())
 
 # Load dual-model bundle
-model_bundle = pickle.load(open('pipe.pkl', 'rb'))
+model_bundle = pickle.load(open('pipe_new.pkl', 'rb'))
 model_inn1 = model_bundle['model_inn1']
 model_inn2 = model_bundle['model_inn2']
 label_encoders = model_bundle['label_encoders']
@@ -83,6 +84,8 @@ if st.button('Predict Probability'):
 }
 
     input_df = pd.DataFrame(input_dict)
+    input_df = input_df.merge(venue_stats, on="venue", how="left")
+    input_df["score_vs_avg"] = (input_df["runs_so_far"] - input_df["avg_1st_score"])
 
     # Encode categorical features
     for col, le in label_encoders.items():
@@ -105,6 +108,15 @@ if st.button('Predict Probability'):
     result = model.predict_proba(input_df)
     loss_prob = result[0][0]
     win_prob = result[0][1]
+
+    # Handle case where all wickets are lost and target not reached
+    if innings == 2 and wickets_so_far == 10 and runs_so_far < target_runs:
+        win_prob = 0.0
+        loss_prob = 1.0
+    # Handle case where target is reached
+    elif innings == 2 and runs_so_far >= target_runs:
+        win_prob = 1.0
+        loss_prob = 0.0
 
     # Output
     st.markdown("### Win Probability")
