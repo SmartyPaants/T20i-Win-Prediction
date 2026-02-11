@@ -63,7 +63,7 @@ if st.button('Predict Probability'):
     runs_left = target_runs - runs_so_far if innings == 2 else -1
     required_run_rate = (runs_left * 6) / balls_left if innings == 2 and balls_left > 0 else -1
 
-    year = datetime().now().year
+    year = datetime.now().year
 
     # Create input dataframe
     input_dict = {
