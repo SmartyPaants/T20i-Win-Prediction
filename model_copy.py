@@ -5,7 +5,7 @@ import pickle
 from datetime import datetime
 
 # Load dataset for dropdown options
-df = pd.read_csv('t20_data.csv.zip', compression="zip")
+df = pd.read_csv('t20_data_clean.csv.zip', compression="zip")
 
 # Extract unique teams and venues dynamically
 teams = sorted(set(df['batting_team'].unique()) | set(df['bowling_team'].unique()))
